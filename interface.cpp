@@ -7,10 +7,10 @@ TInterface::TInterface(QWidget *parent)
     setFixedSize(500, 300);
     setWindowTitle("Polynom");
 
-    polynom_degree = new QLabel("Polynom size:", this);
-    polynom_degree->setGeometry(20, 20, 80, 25);
+    polynom_degree = new QLabel("Polynom degree:", this);
+    polynom_degree->setGeometry(20, 20, 90, 25);
     size = new QSpinBox(this);
-    size->setGeometry(110, 20, 40, 25);
+    size->setGeometry(120, 20, 40, 25);
 
     a_n = new QLabel("Senior coeff =", this);
     a_n->setGeometry(20, 50, 100, 25);
