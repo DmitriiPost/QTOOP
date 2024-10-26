@@ -41,13 +41,13 @@ TPolynom::TPolynom(number seniorC, int len)
 	calcCoeff();
 }
 
-TPolynom::TPolynom(number seniorC, TArray arr, int len)
+TPolynom::TPolynom(number seniorC, number* arr, int len)
 {
     seniorCoeff = seniorC;
     roots.changeSize(len);
     for (int i = 0; i < len; i++)
     {
-        roots.changeElement(arr.getElem(i), i);
+        roots.changeElement(arr[i], i);
     }
     calcCoeff();
 }
@@ -148,6 +148,19 @@ QString TPolynom::polynomCanonToQString()
                 s += QString().setNum(i);
             }
         }
+    }
+    return s;
+}
+
+QString TPolynom::polynomClassicToQString() {
+    QString s = "";
+    s << seniorCoeff;
+    int degree = roots.getSize();
+    for (int i = degree - 1; i >= 0; i--)
+    {
+        s += "(x - ";
+        s << roots.getElem(i);
+        s += ")";
     }
     return s;
 }

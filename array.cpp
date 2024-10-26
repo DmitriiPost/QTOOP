@@ -6,20 +6,20 @@ using namespace std;
 
 TArray::TArray()
 {
-	size = 0;
+    sizeArr = 0;
     elements = nullptr;
 }
 
 TArray::TArray(int n) {
-	size = n;
-	elements = new number[size];
-	for (int i = 0; i < size; i++) {
+    sizeArr = n;
+    elements = new number[sizeArr];
+    for (int i = 0; i < sizeArr; i++) {
 		elements[i] = 0;
 	}
 }
 
 void TArray::insertElem() {
-	for (int i = 0; i < size; i++) {
+    for (int i = 0; i < sizeArr; i++) {
 		cin >> elements[i];
 	}
 	system("cls");
@@ -30,23 +30,23 @@ void TArray::midAndSKO() {
 	number average = 0;
 	number sumSko = 0;
 	number sko = 0;
-	for (int i = 0; i < size; i++)
+    for (int i = 0; i < sizeArr; i++)
 	{
 		sum += elements[i];
 	}
-	average = sum / size;
-	for (int i = 0; i < size; i++)
+    average = sum / sizeArr;
+    for (int i = 0; i < sizeArr; i++)
 	{
 		sumSko += ((elements[i] - average) * (elements[i] - average));
 	}
-	sko = sqrt((number)1 / (size - 1) * sumSko);
+    sko = sqrt((number)1 / (sizeArr - 1) * sumSko);
     cout << "Среднее: " << average << "\n";
     cout << "СКО: " << sko << "\n";
 	system("pause");
 }
 
 void TArray::insertionSortAbove() {
-	for (int i = 1; i < size; i++) {
+    for (int i = 1; i < sizeArr; i++) {
 		number key = elements[i];
 		int j = i - 1;
 
@@ -60,7 +60,7 @@ void TArray::insertionSortAbove() {
 }
 
 void TArray::insertionSortBeyond() {
-	for (int i = 1; i < size; i++) {
+    for (int i = 1; i < sizeArr; i++) {
 		number key = elements[i];
 		int j = i - 1;
 
@@ -74,13 +74,13 @@ void TArray::insertionSortBeyond() {
 
 void TArray::changeSize(int newSize) {
 	number* newElements = new number[newSize];
-	for (int i = 0; i < (newSize < size ? newSize : size); i++) {
+    for (int i = 0; i < (newSize < sizeArr ? newSize : sizeArr); i++) {
 		newElements[i] = elements[i];
 	}
 
 
-	if (newSize > size) {
-		for (int i = size; i < newSize; i++) {
+    if (newSize > sizeArr) {
+        for (int i = sizeArr; i < newSize; i++) {
 			newElements[i] = 0;
 		}
 	}
@@ -91,14 +91,14 @@ void TArray::changeSize(int newSize) {
 
 	elements = newElements;
 
-	size = newSize;
+    sizeArr = newSize;
 
     //cout << "Размер массива изменен на " << newSize << " элементов.\n"
     //system("pause");
 }
 
 void TArray::changeElement(number elem, int index) {
-	if (index >= 0 && index <= size - 1) {
+    if (index >= 0 && index <= sizeArr - 1) {
 		elements[index] = elem;
         //cout << "Успешно\n;
 	}
@@ -109,7 +109,7 @@ void TArray::changeElement(number elem, int index) {
 }
 
 void TArray::print() {
-	for (int i = 0; i < size; i++) {
+    for (int i = 0; i < sizeArr; i++) {
 		cout << elements[i] << " ";
 	}
 	cout << endl;
@@ -117,7 +117,7 @@ void TArray::print() {
 
 int TArray::getSize()
 {
-	return size;
+    return sizeArr;
 }
 
 number TArray::getElem(int index)
@@ -127,5 +127,5 @@ number TArray::getElem(int index)
 
 TArray::~TArray()
 {
-	delete[] elements;
+    //if(elements != nullptr) delete[] elements;
 }

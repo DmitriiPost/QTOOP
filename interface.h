@@ -18,19 +18,18 @@ class TInterface : public QWidget
     QLineEdit *elems, *sen_coeff_re, *sen_coeff_im, *x_re, *x_im;
     QPushButton *canon_polynom_btn;
     QPushButton *clas_polynom_btn;
-    QPushButton *change_elem_btn;
     QPushButton *calc_polynom_btn;
-    QPushButton *change_size_btn;
-    QPushButton *exit_btn;
 
 public:
     TInterface(QWidget *parent = nullptr);
     ~TInterface();
 
-    TArray readArr();
+    number* readArr();
 
 
 public slots:
     void printCanon();
+    void printClassic();
+    void calcPolynom();
 };
 #endif // INTERFACE_H

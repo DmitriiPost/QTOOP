@@ -8,7 +8,7 @@ class TPolynom
 public:
 	TPolynom();
 	TPolynom(number, int);
-    TPolynom(number, TArray, int);
+    TPolynom(number, number*, int);
 
 	void printFirst();
 	void printSecond();
@@ -18,6 +18,7 @@ public:
 	void changeRoot(int, number);
 	void changeRootSize(int);
     QString polynomCanonToQString();
+    QString polynomClassicToQString();
 
 private:
 	TArray roots;

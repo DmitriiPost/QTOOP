@@ -4,7 +4,7 @@
 TInterface::TInterface(QWidget *parent)
     : QWidget(parent)
 {
-    setFixedSize(400, 300);
+    setFixedSize(500, 300);
     setWindowTitle("Polynom");
 
     polynom_degree = new QLabel("Polynom size:", this);
@@ -37,27 +37,20 @@ TInterface::TInterface(QWidget *parent)
     x_im->setGeometry(80, 140, 20, 25);
 
     canon_polynom_btn = new QPushButton("Canon", this);
-    canon_polynom_btn->setGeometry(300, 50, 90, 30);
+    canon_polynom_btn->setGeometry(400, 50, 90, 30);
 
     clas_polynom_btn = new QPushButton("Classic", this);
-    clas_polynom_btn->setGeometry(300, 85, 90, 30);
-
-    change_elem_btn = new QPushButton("Change elem", this);
-    change_elem_btn->setGeometry(300, 120, 90, 30);
+    clas_polynom_btn->setGeometry(400, 85, 90, 30);
 
     calc_polynom_btn = new QPushButton("Calc polynom", this);
-    calc_polynom_btn->setGeometry(300, 155, 90, 30);
-
-    change_size_btn = new QPushButton("Change size", this);
-    change_size_btn->setGeometry(300, 190, 90, 30);
-
-    exit_btn = new QPushButton("Exit", this);
-    exit_btn->setGeometry(300, 225, 90, 30);
+    calc_polynom_btn->setGeometry(400, 120, 90, 30);
 
     output = new QLabel(this);
-    output->setGeometry(20, 230, 370, 70);
+    output->setGeometry(20, 230, 470, 70);
 
     connect(canon_polynom_btn, SIGNAL(pressed()), this, SLOT(printCanon()));
+    connect(clas_polynom_btn, SIGNAL(pressed()), this, SLOT(printClassic()));
+    connect(calc_polynom_btn, SIGNAL(pressed()), this, SLOT(calcPolynom()));
 }
 
 TInterface::~TInterface() {
@@ -74,19 +67,21 @@ TInterface::~TInterface() {
     delete output;
     delete canon_polynom_btn;
     delete clas_polynom_btn;
-    delete change_elem_btn;
     delete calc_polynom_btn;
-    delete change_size_btn;
-    delete exit_btn;
 }
 
-TArray TInterface::readArr(){
+number* TInterface::readArr(){
     QString s = elems->text();
     int sizeArr = size->text().toInt();
-    TArray arr(sizeArr);
+    number* arr = new number[sizeArr];
     QStringList strList = s.split(" ");
-    for (int i = 0; i < strList.length(); i+=2) {
-        if (i + 1 >= strList.length())
+    int rootsLen = strList.length();
+    if (rootsLen > sizeArr * 2)
+    {
+        rootsLen = sizeArr * 2;
+    }
+    for (int i = 0; i < rootsLen; i+=2) {
+        if (i + 1 >= rootsLen)
         {
             break;
         }
@@ -94,7 +89,14 @@ TArray TInterface::readArr(){
         elem_re = strList[i].toDouble();
         elem_im = strList[i + 1].toDouble();
         number elem(elem_re, elem_im);
-        arr.changeElement(elem, int(i / 2));
+        arr[int(i / 2)] = elem;
+    }
+    if (sizeArr * 2 > rootsLen)
+    {
+        for (int i = rootsLen; i < sizeArr; i+= 2)
+        {
+            arr[int(i / 2)] = 0;
+        }
     }
     return arr;
 }
@@ -107,10 +109,42 @@ void TInterface::printCanon() {
     seniorCoeff_im = sen_coeff_im->text().toDouble();
     number seniorCoeff(seniorCoeff_re, seniorCoeff_im);
     int sizeArr = size->text().toInt();
-    TArray arr = readArr();
-    //s += QString().setNum(sizeArr);
-    //s << arr.getElem(1);
+    number* arr = readArr();
     TPolynom p(seniorCoeff, arr, sizeArr);
     s += p.polynomCanonToQString();
+    output->setText(s);
+}
+
+void TInterface::printClassic() {
+    QString s;
+    s += "Polynom: ";
+    double seniorCoeff_re, seniorCoeff_im;
+    seniorCoeff_re = sen_coeff_re->text().toDouble();
+    seniorCoeff_im = sen_coeff_im->text().toDouble();
+    number seniorCoeff(seniorCoeff_re, seniorCoeff_im);
+    int sizeArr = size->text().toInt();
+    number* arr = readArr();
+    TPolynom p(seniorCoeff, arr, sizeArr);
+    s += p.polynomClassicToQString();
+    output->setText(s);
+}
+
+void TInterface::calcPolynom() {
+    QString s;
+    s += "Polynom at x: ";
+    double seniorCoeff_re, seniorCoeff_im;
+    seniorCoeff_re = sen_coeff_re->text().toDouble();
+    seniorCoeff_im = sen_coeff_im->text().toDouble();
+    number seniorCoeff(seniorCoeff_re, seniorCoeff_im);
+
+    double dot_re, dot_im;
+    dot_re = x_re->text().toDouble();
+    dot_im = x_im->text().toDouble();
+    number dot(dot_re, dot_im);
+
+    int sizeArr = size->text().toInt();
+    number* arr = readArr();
+    TPolynom p(seniorCoeff, arr, sizeArr);
+    s << p.calcPolynom(dot);
     output->setText(s);
 }

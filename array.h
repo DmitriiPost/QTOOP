@@ -19,7 +19,7 @@ public:
 	int getSize();
 	number getElem(int);
 private:
-	int size;
+    int sizeArr;
 	number* elements;
 };
 
