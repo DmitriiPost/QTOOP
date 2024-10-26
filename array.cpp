@@ -127,5 +127,5 @@ number TArray::getElem(int index)
 
 TArray::~TArray()
 {
-    //if(elements != nullptr) delete[] elements;
+    if(elements != nullptr) delete[] elements;
 }
